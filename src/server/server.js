@@ -30,10 +30,11 @@ const io = socketio(server);
 
 // Listen for socket.io connections
 io.on('connection', socket => {
-  console.log('Player connected!', socket.id);
+  console.log('Player connectedvre !', socket.id);
 
   socket.on(Constants.MSG_TYPES.JOIN_GAME, joinGame);
   socket.on(Constants.MSG_TYPES.INPUT, handleInput);
+  socket.on(Constants.MSG_TYPES.CLICK, handleClick);
   socket.on('disconnect', onDisconnect);
 });
 
@@ -46,6 +47,10 @@ function joinGame(username) {
 
 function handleInput(dir) {
   game.handleInput(this, dir);
+}
+
+function handleClick(x) {
+  game.handleClick(this, x);
 }
 
 function onDisconnect() {

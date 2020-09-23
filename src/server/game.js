@@ -32,6 +32,13 @@ class Game {
     }
   }
 
+  handleClick(socket, dir) {
+    console.log(socket.id)
+    if (this.players[socket.id]) {
+      this.players[socket.id].upgradeBuilding(dir);
+    }
+  }
+
   update() {
     // Calculate time elapsed
     const now = Date.now();

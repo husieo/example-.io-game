@@ -1,6 +1,6 @@
 // Learn more about this file at:
 // https://victorzhou.com/blog/build-an-io-game-part-1/#6-client-input-%EF%B8%8F
-import { updateDirection } from './networking';
+import { updateDirection, processClick } from './networking';
 
 function onMouseInput(e) {
   handleInput(e.clientX, e.clientY);
@@ -16,16 +16,44 @@ function handleInput(x, y) {
   updateDirection(dir);
 }
 
+function handleClick(x, y) {
+  processClick(x);
+}
+
 export function startCapturingInput() {
-  window.addEventListener('mousemove', onMouseInput);
   window.addEventListener('click', onMouseInput);
   window.addEventListener('touchstart', onTouchInput);
   window.addEventListener('touchmove', onTouchInput);
+
+  var canvas = document.getElementById('game-canvas'),
+    elemLeft = canvas.offsetLeft + canvas.clientLeft,
+    elemTop = canvas.offsetTop + canvas.clientTop,
+    context = canvas.getContext('2d'),
+    elements = [];
+
+// Add event listener for `click` events.
+canvas.addEventListener('click', function(event) {
+    var x = event.pageX - elemLeft,
+        y = event.pageY - elemTop;
+
+    console.log(`clicked an element ${x},${y}:` );
+    handleClick(x)
+
+    // Collision detection between clicked offset and element.
+    // elements.forEach(function(element) {
+    //     if (y > element.top && y < element.top + element.height 
+    //         && x > element.left && x < element.left + element.width) {
+    //         console.log('clicked an element');
+    //     }
+    // });
+
+}, false);
 }
 
 export function stopCapturingInput() {
-  window.removeEventListener('mousemove', onMouseInput);
   window.removeEventListener('click', onMouseInput);
   window.removeEventListener('touchstart', onTouchInput);
   window.removeEventListener('touchmove', onTouchInput);
 }
+
+

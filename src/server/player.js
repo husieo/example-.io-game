@@ -9,6 +9,7 @@ class Player extends ObjectClass {
     this.hp = Constants.PLAYER_MAX_HP;
     this.fireCooldown = 0;
     this.score = 0;
+    this.level = 0;
   }
 
   // Returns a newly created bullet, or null.
@@ -30,6 +31,13 @@ class Player extends ObjectClass {
     }
 
     return null;
+  }
+
+  upgradeBuilding(coords){
+    if(this.score > 10){
+      this.score -= 10;
+      this.level++;
+    }
   }
 
   takeBulletDamage() {
