@@ -16,8 +16,9 @@ class Game {
     this.sockets[socket.id] = socket;
 
     // Generate a position to start this player at.
-    const x = Constants.MAP_SIZE * (0.25 + Math.random() * 0.5);
-    const y = Constants.MAP_SIZE * (0.25 + Math.random() * 0.5);
+    const x = Constants.MAP_SIZE * 0.5;
+    const y = Constants.MAP_SIZE * 0.5;
+    console.log(x,y)
     this.players[socket.id] = new Player(socket.id, username, x, y);
   }
 

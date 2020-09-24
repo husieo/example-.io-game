@@ -4,6 +4,7 @@ const Constants = require('../shared/constants');
 
 class Player extends ObjectClass {
   constructor(id, username, x, y) {
+
     super(id, x, y, Math.random() * 2 * Math.PI, Constants.PLAYER_SPEED);
     this.username = username;
     this.hp = Constants.PLAYER_MAX_HP;

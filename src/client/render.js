@@ -16,9 +16,11 @@ setCanvasDimensions();
 function setCanvasDimensions() {
   // On small screens (e.g. phones), we want to "zoom out" so players can still see at least
   // 800 in-game units of width.
-  const scaleRatio = Math.max(1, 800 / window.innerWidth);
-  canvas.width = scaleRatio * window.innerWidth;
-  canvas.height = scaleRatio * window.innerHeight;
+  // const scaleRatio = Math.max(1, 100 / window.innerWidth);
+  // canvas.width = scaleRatio * window.innerWidth;
+  // canvas.height = scaleRatio * window.innerHeight;
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
 }
 
 window.addEventListener('resize', debounce(40, setCanvasDimensions));
@@ -41,8 +43,8 @@ function render() {
   bullets.forEach(renderBullet.bind(null, me));
 
   // Draw all players
-  renderPlayer(me, me);
-  others.forEach(renderPlayer.bind(null, me));
+  renderMap(me, me);
+  others.forEach(renderMap.bind(null, me));
 }
 
 function renderBackground(x, y) {
@@ -63,7 +65,7 @@ function renderBackground(x, y) {
 }
 
 // Renders a ship at the given coordinates
-function renderPlayer(me, player) {
+function renderMap(me, player) {
   const { x, y, direction } = player;
   const canvasX = canvas.width / 2 + x - me.x;
   const canvasY = canvas.height / 2 + y - me.y;
@@ -71,9 +73,9 @@ function renderPlayer(me, player) {
   // Draw ship
   context.save();
   context.translate(canvasX, canvasY);
-  context.rotate(direction);
+  // context.rotate(direction);
   context.drawImage(
-    getAsset('ship.svg'),
+    getAsset('hexagon.svg'),
     -PLAYER_RADIUS,
     -PLAYER_RADIUS,
     PLAYER_RADIUS * 2,
