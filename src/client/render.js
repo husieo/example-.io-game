@@ -26,7 +26,7 @@ function setCanvasDimensions() {
 window.addEventListener('resize', debounce(40, setCanvasDimensions));
 
 function render() {
-  const { me, others, bullets } = getCurrentState();
+  const { me, others, tiles } = getCurrentState();
   if (!me) {
     return;
   }
@@ -39,37 +39,37 @@ function render() {
   // bullets.forEach(renderBullet.bind(null, me));
 
   // Draw all players
-  renderMap();
+  renderMap(tiles);
   // others.forEach(renderMap.bind(null, me));
 }
 
 // Renders a ship at the given coordinates
-function renderMap() {
+function renderMap(tiles) {
   const canvasX = canvas.width / 2;
   const canvasY = canvas.height / 2;
+
 
   // Draw ship
   context.save();
   context.translate(canvasX, canvasY);
   // context.rotate(direction);
-  for (let verticalIndex = 0; verticalIndex < MAP_WIDTH; verticalIndex++) {
-    for (let horizontalIndex = 0; horizontalIndex < MAP_HEIGHT; horizontalIndex++) {
-      let id = verticalIndex*MAP_WIDTH + horizontalIndex;
-      let even = verticalIndex % 2;
-      let shift = PLAYER_RADIUS / 2;
-      context.drawImage(
-        getAsset('hexagon.svg'),
-        -PLAYER_RADIUS + horizontalIndex*PLAYER_RADIUS*2 + even*PLAYER_RADIUS,
-        -PLAYER_RADIUS + verticalIndex*(PLAYER_RADIUS*2-shift),
-        PLAYER_RADIUS * 2 ,
-        PLAYER_RADIUS * 2,
-      );
-    }
+  for(const tile of tiles){
+    // console.log(id+","+tile);
+    // console.log(tile.x+" "+tile.y);
+    context.drawImage(
+      getAsset('hexagon.svg'),
+      -PLAYER_RADIUS + tile.x,
+      -PLAYER_RADIUS + tile.y,
+      PLAYER_RADIUS * 2 ,
+      PLAYER_RADIUS * 2,
+    );
+    context.fillStyle = tile.color;
+    context.font = "24px Arial";
+    context.fillText(tile.level,tile.x, tile.y);
   }
   
   context.restore();
 }
-
 
 function renderMainMenu() {
   const t = Date.now() / 7500;

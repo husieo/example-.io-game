@@ -65,9 +65,9 @@ export function getCurrentState() {
     const next = gameUpdates[base + 1];
     const ratio = (serverTime - baseUpdate.t) / (next.t - baseUpdate.t);
     return {
-      me: interpolateObject(baseUpdate.me, next.me, ratio),
-      others: interpolateObjectArray(baseUpdate.others, next.others, ratio),
-      bullets: interpolateObjectArray(baseUpdate.bullets, next.bullets, ratio),
+      me: next.me,
+      others: next.others,
+      tiles: next.tiles
     };
   }
 }
@@ -88,9 +88,6 @@ function interpolateObject(object1, object2, ratio) {
   return interpolated;
 }
 
-function interpolateObjectArray(objects1, objects2, ratio) {
-  return objects1.map(o => interpolateObject(o, objects2.find(o2 => o.id === o2.id), ratio));
-}
 
 // Determines the best way to rotate (cw or ccw) when interpolating a direction.
 // For example, when rotating from -3 radians to +3 radians, we should really rotate from

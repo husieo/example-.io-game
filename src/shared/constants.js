@@ -9,7 +9,9 @@ module.exports = Object.freeze({
   BULLET_DAMAGE: 10,
 
   SCORE_BULLET_HIT: 20,
+  START_SCORE: 20,
   SCORE_PER_SECOND: 1,
+  TURN_TIME: 1, 
 
   MAP_SIZE: 500,
   MAP_WIDTH: 5,

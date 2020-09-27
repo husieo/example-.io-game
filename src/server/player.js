@@ -9,8 +9,9 @@ class Player extends ObjectClass {
     this.username = username;
     this.hp = Constants.PLAYER_MAX_HP;
     this.fireCooldown = 0;
-    this.score = 0;
+    this.score = Constants.START_SCORE;
     this.level = 0;
+    this.color = this.getRandomColor();
   }
 
   // Returns a newly created bullet, or null.
@@ -55,6 +56,15 @@ class Player extends ObjectClass {
       direction: this.direction,
       hp: this.hp,
     };
+  }
+
+  getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
   }
 }
 

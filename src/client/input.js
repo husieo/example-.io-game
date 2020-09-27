@@ -17,7 +17,7 @@ function handleInput(x, y) {
 }
 
 function handleClick(x, y) {
-  processClick(x);
+  processClick(x,y);
 }
 
 export function startCapturingInput() {
@@ -37,7 +37,10 @@ canvas.addEventListener('click', function(event) {
         y = event.pageY - elemTop;
 
     console.log(`clicked an element ${x},${y}:` );
-    handleClick(x)
+    var canvas = document.getElementById('game-canvas');
+    const canvasX = canvas.width / 2;
+    const canvasY = canvas.height / 2;
+    handleClick(x-canvasX,y-canvasY);
 
     // Collision detection between clicked offset and element.
     // elements.forEach(function(element) {

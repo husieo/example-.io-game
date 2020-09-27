@@ -39,6 +39,6 @@ export const updateDirection = throttle(20, dir => {
   socket.emit(Constants.MSG_TYPES.INPUT, dir);
 });
 
-export const processClick = throttle(20, x => {
-  socket.emit(Constants.MSG_TYPES.CLICK, x);
+export const processClick = throttle(20, (x,y) => {
+  socket.emit(Constants.MSG_TYPES.CLICK, x,y);
 });
