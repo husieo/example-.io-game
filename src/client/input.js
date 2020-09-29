@@ -38,8 +38,8 @@ canvas.addEventListener('click', function(event) {
 
     console.log(`clicked an element ${x},${y}:` );
     var canvas = document.getElementById('game-canvas');
-    const canvasX = canvas.width / 2;
-    const canvasY = canvas.height / 2;
+    const canvasX = canvas.width / 3;
+    const canvasY = canvas.height / 3;
     handleClick(x-canvasX,y-canvasY);
 
     // Collision detection between clicked offset and element.

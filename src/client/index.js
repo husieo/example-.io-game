@@ -17,6 +17,14 @@ const playMenu = document.getElementById('play-menu');
 const playButton = document.getElementById('play-button');
 const usernameInput = document.getElementById('username-input');
 
+// Make sure this code gets executed after the DOM is loaded.
+usernameInput.addEventListener("keyup", event => {
+  if(event.key !== "Enter") return; // Use `.key` instead.
+  playButton.click(); // Things you want to do.
+  event.preventDefault(); // No need to `return false;`.
+});
+
+
 Promise.all([
   connect(onGameOver),
   downloadAssets(),

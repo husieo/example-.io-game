@@ -64,15 +64,18 @@ class Game {
     if (this.players[socket.id]) {
       let player = this.players[socket.id];
       if(tile.owner != socket.id){
-        console.log(tile.level*10);
-        if(player.score >= tile.level*10){
+        if(player.score >= (tile.level*10+10)){
           player.score -= tile.level*10;
           tile.owner = socket.id;
           tile.color = player.color;
           tile.level = Math.max(1, tile.level-3);
+          while(tile.towns.length > tile.level){
+            tile.towns.pop();
+          }
         }
       } else if(player.score > 10){
         tile.level += 1;
+        tile.generateTown();
         player.score -= 10;
       }
     }

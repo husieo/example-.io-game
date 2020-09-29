@@ -45,3 +45,6 @@ To run the tests for this this project, simply
 $ npm install
 $ npm test
 ```
+
+## Acknowledgments
+Artwork crceated by Aleksandr Makarov: https://www.patreon.com/iknowkingrabbit

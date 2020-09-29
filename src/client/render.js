@@ -6,7 +6,7 @@ import { getCurrentState } from './state';
 
 const Constants = require('../shared/constants');
 
-const { PLAYER_RADIUS, PLAYER_MAX_HP, BULLET_RADIUS, MAP_SIZE, MAP_WIDTH, MAP_HEIGHT } = Constants;
+const { PLAYER_RADIUS, PLAYER_MAX_HP, BULLET_RADIUS, MAP_SIZE, MAP_WIDTH, MAP_HEIGHT,TILE_OBJECT_SIZE } = Constants;
 
 // Get the canvas graphics context
 const canvas = document.getElementById('game-canvas');
@@ -45,8 +45,8 @@ function render() {
 
 // Renders a ship at the given coordinates
 function renderMap(tiles) {
-  const canvasX = canvas.width / 2;
-  const canvasY = canvas.height / 2;
+  const canvasX = canvas.width / 3;
+  const canvasY = canvas.height / 3;
 
 
   // Draw ship
@@ -57,18 +57,68 @@ function renderMap(tiles) {
     // console.log(id+","+tile);
     // console.log(tile.x+" "+tile.y);
     context.drawImage(
-      getAsset('hexagon.svg'),
+      getAsset('hexagon.png'),
       -PLAYER_RADIUS + tile.x,
       -PLAYER_RADIUS + tile.y,
       PLAYER_RADIUS * 2 ,
       PLAYER_RADIUS * 2,
     );
+    // drawColoredImage(context, 
+    //   'hexagon.png', 
+    //   -PLAYER_RADIUS + tile.x,  -PLAYER_RADIUS + tile.y,  
+    //   PLAYER_RADIUS * 2 , PLAYER_RADIUS * 2,
+    //   '#000000',tile.color);
     context.fillStyle = tile.color;
-    context.font = "24px Arial";
-    context.fillText(tile.level,tile.x, tile.y);
+    context.fillRect(tile.x, tile.y, TILE_OBJECT_SIZE/2, TILE_OBJECT_SIZE/2);
+    for(const town of tile.towns){
+      context.drawImage(
+        getAsset(town.image),
+        tile.x + town.x,
+        tile.y + town.y,
+        TILE_OBJECT_SIZE,
+        TILE_OBJECT_SIZE
+      );
+    }
+    for(const feature of tile.features){
+      context.drawImage(
+        getAsset(feature.image),
+        tile.x + feature.x,
+        tile.y + feature.y,
+        TILE_OBJECT_SIZE,
+        TILE_OBJECT_SIZE
+      );
+    }
   }
   
   context.restore();
+}
+
+function drawColoredImage(context, image, x, y, width, height, initialColorHex, colorHex) {
+  context.drawImage(
+    getAsset(image),
+    x,
+    y,
+    width,
+    height
+  );
+
+  var imageData = context.getImageData(x, y, width, height);
+  var data = imageData.data;
+
+  for (var i = 0; i < data.length; i+= 4) {
+    var colorHex = rgbToHex(data[i], data[i+1], data[i+2]); 
+    console.log(colorHex);
+    if(colorHex === initialColorHex){
+      var colorRGB = hexToRgb(colorHex);
+      data[i] = colorRGB.r; // change Red
+      data[i+1] = colorRGB.g; // change Green
+      data[i+2] = colorRGB.b; // change Blue
+    }
+  }
+
+  // Update the canvas with the new data
+  context.putImageData(imageData, x, y);
+
 }
 
 function renderMainMenu() {
@@ -89,4 +139,22 @@ export function startRendering() {
 export function stopRendering() {
   clearInterval(renderInterval);
   renderInterval = setInterval(renderMainMenu, 1000 / 60);
+}
+
+function rgbToHex(r, g, b) {
+  return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+}
+
+function hexToRgb(hex) {
+  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result ? {
+    r: parseInt(result[1], 16),
+    g: parseInt(result[2], 16),
+    b: parseInt(result[3], 16)
+  } : null;
+}
+
+function componentToHex(c) {
+  var hex = c.toString(16);
+  return hex.length == 1 ? "0" + hex : hex;
 }
